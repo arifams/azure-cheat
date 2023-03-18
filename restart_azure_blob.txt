@@ -1,0 +1,7 @@
+Restart azure
+	az vm restart -g MyResourceGroup -n MyVm
+
+find blob
+	az find blob
+or 
+	az storage blob --help
