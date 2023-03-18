@@ -1,0 +1,35 @@
+Creating Disk and Update and Upgrade it within ResourceGroup in Azure 
+
+create location for azure resource group with variable called 'location'
+	$location = (Get-AzResourceGroup -Name ResourceGroup1).Location 
+
+Making resource group
+	$rgName = "ResourceGroup1"  
+
+Find out resource group name
+	Get-AzResourceGroup -Name $rgName 
+
+Creating configuration with variable called 'diskConfig'
+	$diskConfig = New-AzDiskConfig `
+	>> -Location $Location `
+	>> -CreateOption Empty `
+	>> -DiskSizeGB 32 `
+	>> -Sku Standard_LRS
+
+creating disk with variable called 'diskName'
+	$diskName = "azTestLearn-Disk1"  
+
+configure the disk in Azure
+	New-AzDisk -ResourceGroupName $rgName -DiskName $diskName -Disk $diskConfig  
+
+Updating the disk size to 64Gb azure
+	New-AzDiskUpdateConfig -DiskSizeGB 64 | Update-AzDisk -ResourceGroupName $rgName -DiskName $diskName  
+
+Find out what is the resource group and theh diskname in Azure
+	Get-AzDisk -ResourceGroupName $rgName -Name $diskName  
+
+Change Sku to premium in Azure
+	New-AzDiskUpdateConfig -Sku Premium_LRS | Update-AzDisk -ResourceGroupName $rgName -DiskName $diskName
+
+Find out the purchasable SKU Azure (Stock-keeping-Unit) Azure
+	(Get-AzDisk -ResourceGroupName $rgName -Name $diskName).Sku
