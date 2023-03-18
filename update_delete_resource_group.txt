@@ -1,0 +1,2 @@
+Remove Resource Group
+	Remove-AzResourceGroup -Name "myResourceGroup"
