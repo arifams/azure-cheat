@@ -1,0 +1,72 @@
+template scheme azure for easy resources deployment with json
+
+	{
+	    "$schema": "http://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+	    "contentVersion": "",
+	    "parameters": {},
+	    "variables": {},
+	    "functions": [],
+	    "resources": [],
+	    "outputs": {}
+	}
+
+
+$schema (required)
+Location of the JSON schema file that describes the version of the template language. Use the URL shown in the preceding example.
+
+contentVersion (required)
+Version of the template (such as 1.0.0.0). You can provide any value for this element. Use this value to document significant changes in your template. This value can be used to make sure that the right template is being used.
+
+parameters (not required)
+Values that are provided when deployment is executed to customize resource deployment.
+
+variables (not required)
+Values that are used as JSON fragments in the template to simplify template language expressions.
+
+functions (not required)
+User-defined functions that are available within the template.
+
+contentVersion (required)
+Resource types that are deployed or updated in a resource group.
+
+outputs (not required)
+Values that are returned after deployment.
+
+
+Available properties
+	"parameters": {
+	    "<parameter-name>" : {
+	        "type" : "<type-of-parameter-value>",
+	        "defaultValue": "<default-value-of-parameter>",
+	        "allowedValues": [ "<array-of-allowed-values>" ],
+	        "minValue": <minimum-value-for-int>,
+	        "maxValue": <maximum-value-for-int>,
+	        "minLength": <minimum-length-for-string-or-array>,
+	        "maxLength": <maximum-length-for-string-or-array-parameters>,
+	        "metadata": {
+	        "description": "<description-of-the parameter>"
+	        }
+	    }
+	}
+
+
+Here's an example that illustrates two parameters: one for a virtual machine's username, and one for its password:
+
+	"parameters": {
+	  "adminUsername": {
+	    "type": "string",
+	    "metadata": {
+	      "description": "Username for the Virtual Machine."
+	    }
+	  },
+	  "adminPassword": {
+	    "type": "securestring",
+	    "metadata": {
+	      "description": "Password for the Virtual Machine."
+	    }
+	  }
+	}
+
+
+
+
