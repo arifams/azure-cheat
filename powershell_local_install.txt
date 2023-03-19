@@ -1,0 +1,53 @@
+Powershell install
+
+linux
+--------
+Import the encryption key for the Microsoft Ubuntu repository. This key enables the package manager to verify that the PowerShell package you install comes from Microsoft.
+	curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+
+
+Register the Microsoft Ubuntu repository so the package manager can locate the PowerShell package.
+	sudo curl -o /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/18.04/prod.list
+
+
+Update the list of packages.
+	sudo apt-get update
+
+
+Install PowerShell.
+	sudo apt-get install -y powershell
+
+
+Start PowerShell to verify that it installed successfully.
+	pwsh
+
+Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
+Update-Module -Name Az
+
+
+MAC
+--------
+Install Homebrew-Cask to obtain more packages, including the PowerShell package:
+	brew install --cask powershell
+
+
+Start PowerShell to verify that it installed successfully:
+	pwsh
+
+
+
+
+Windows
+--------
+command to determine the version of PowerShell installed.
+	$PSVersionTable.PSVersion
+or
+	pwsh -ver
+
+If the major version number is lower than 7, upgraded:
+	dotnet tool install --global PowerShell
+
+Install the Az PowerShell module
+	Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
+	Update-Module -Name Az
+

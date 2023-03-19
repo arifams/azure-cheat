@@ -1,0 +1,19 @@
+create a resource group with Azure PowerShell
+
+- Connect to your Azure subscription. 
+	Connect-AzAccount
+- Work with subscriptions
+	Set-AzContext -Subscription '00000000-0000-0000-0000-000000000000'
+- Get a list of all resource groups
+	Get-AzResourceGroup | Format-Table
+- Create the resource group.
+	New-AzResourceGroup -Name <name> -Location <location>
+- Verify that creation was successful.
+	Get-AzResource | Format-Table
+
+Filter it to specific resource groups to only list resources associated with that group:
+	Get-AzResource -ResourceGroupName ExerciseResources
+
+
+
+

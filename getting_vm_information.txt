@@ -1,0 +1,10 @@
+Getting information for a VM.
+Also can changes to that object, then push changes back to Azure by using the Update-AzVM command:
+
+	$vm = Get-AzVM  -Name MyVM -ResourceGroupName WhateverResources
+
+	$ResourceGroupName = "WhateverResources"
+	$vm = Get-AzVM  -Name MyVM -ResourceGroupName $ResourceGroupName
+	$vm.HardwareProfile.vmSize = "Standard_DS3_v2"
+
+	Update-AzVM -ResourceGroupName $ResourceGroupName  -VM $vm

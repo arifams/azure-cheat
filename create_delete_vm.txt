@@ -1,0 +1,47 @@
+create and delete vm
+
+CREATE
+------
+
+Azure Resource Group (ARM) name is 'resourceGroup1' and it's Ubuntu with ports open 22 for SSH.
+       New-AzVm -ResourceGroupName resourceGroup1 -Name "testvm-eus-01" -Credential (Get-Credential) -Location "eastus" -Image Canonical:0001-com-ubuntu-server-focal:20_04-lts:latest -OpenPorts 22 -PublicIpAddressName "testvm-01"
+
+assign the VM object to a variable ($vm).
+       $vm = (Get-AzVM -Name "testvm-eus-01" -ResourceGroupName resourceGroup1
+
+Query the value to dump out the information about the VM.
+       $vm
+
+to see the properties in the VMSize object 
+       $vm.HardwareProfile
+or
+       $vm.StorageProfile.OsDisk
+
+
+find the IP on machine name 'testvm-01'
+       Get-AzPublicIpAddress -ResourceGroupName resourceGroup1 -Name "testvm-01"
+
+Connect to the machine SSH
+       ssh username@IpAddress
+
+
+DELETE
+------
+Stop it first
+       Stop-AzVM -Name $vm.Name -ResourceGroupName $vm.ResourceGroupName
+Delete it 
+       Remove-AzVM -Name $vm.Name -ResourceGroupName $vm.ResourceGroupName
+list all the resources 
+       Get-AzResource -ResourceGroupName $vm.ResourceGroupName | Format-Table
+There are still bunch of resources. Let's delete them.
+Delete the network interface:
+       $vm | Remove-AzNetworkInterface –Force
+Delete the managed OS disks and storage account:
+       Get-AzDisk -ResourceGroupName $vm.ResourceGroupName -DiskName $vm.StorageProfile.OSDisk.Name | Remove-AzDisk -Force
+Next, delete the virtual network:
+       Get-AzVirtualNetwork -ResourceGroupName $vm.ResourceGroupName | Remove-AzVirtualNetwork -Force
+Delete the network security group:
+       Get-AzNetworkSecurityGroup -ResourceGroupName $vm.ResourceGroupName | Remove-AzNetworkSecurityGroup -Force
+And finally, delete the public IP address:
+       Get-AzPublicIpAddress -ResourceGroupName $vm.ResourceGroupName | Remove-AzPublicIpAddress -Force
+
