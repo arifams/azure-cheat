@@ -5,3 +5,15 @@ find blob
 	az find blob
 or 
 	az storage blob --help
+
+
+Deletes an Azure VM.
+	Remove-AzVM	
+Start a stopped VM.
+	Start-AzVM	
+Stop a running VM.
+	Stop-AzVM
+Restart a VM.
+	Restart-AzVM
+Updates the configuration for a VM.
+	Update-AzVM	
