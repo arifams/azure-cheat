@@ -1,0 +1,63 @@
+create azure website
+
+
+Using a resource group
+
+build a resource group and other variables
+	export RESOURCE_GROUP=learn-907455f9-6b3a-4f87-9da6-72f78ae82315
+	export AZURE_REGION=northeurope
+	export AZURE_APP_PLAN=popupappplan-$RANDOM
+	export AZURE_WEB_APP=popupwebapp-$RANDOM
+
+check group list
+	az group list --output table
+
+filter the return values by adding a --query option
+	az group list --query "[?name == '$RESOURCE_GROUP']"
+it will have a JSON output
+
+
+
+Create a service plan
+
+Create an App Service plan. Free option.
+	az appservice plan create --name $AZURE_APP_PLAN --resource-group $RESOURCE_GROUP --location $AZURE_REGION --sku FREE
+
+
+
+Steps to create a web app
+
+supply the web app name and the name of the app plan you created above
+	az webapp create --name $AZURE_WEB_APP --resource-group $RESOURCE_GROUP --plan $AZURE_APP_PLAN
+
+
+Verify that the app was created successful
+	az webapp list --output table
+will have the output table with name, location, etc
+	Name               Location      State    ResourceGroup                               DefaultHostName                      AppServicePlan
+	-----------------  ------------  -------  ------------------------------------------  -----------------------------------  -----------------
+	popupwebapp-26369  North Europe  Running  learn-907455f9-6b3a-4f87-9da6-72f78ae82315  popupwebapp-26369.azurewebsites.net  popupappplan-2907
+Make a note of the DefaultHostName listed in the table; this address is the URL for the new website. Azure will make your website available through the unique app name in the azurewebsites.net domain. For example, if your app name was "popupwebapp-12345", then your website URL would be: http://popupwebapp-12345.azurewebsites.net.
+
+
+Check the site with CURL
+	curl $AZURE_WEB_APP.azurewebsites.net
+
+
+
+Steps to deploy code from GitHub
+
+deploy code from a GitHub repository to the web app. use a basic PHP in the Azure Samples GitHub repository that displays "Hello World!".
+	az webapp deployment source config --name $AZURE_WEB_APP --resource-group $RESOURCE_GROUP --repo-url "https://github.com/Azure-Samples/php-docs-hello-world" --branch master --manual-integration
+
+We can go the site or check it with CURL
+	curl $AZURE_WEB_APP.azurewebsites.net
+it will show 'Hello World!'
+
+
+
+
+
+
+
+
